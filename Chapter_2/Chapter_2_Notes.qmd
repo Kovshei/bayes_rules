@@ -1,5 +1,62 @@
 ---
 title: "Chapter 2 Notes"
-
+subtitle: "Baye's Rule"
 ---
 
+This chapter will examine how we can use Bayesian philosophy to flag news articles as fake news.
+
+**Learning Goals**
+
+-   **Explore foundational probability tools** such as marginal, conditional, and joint probability models and the *Binomial* model.
+
+-   **Conduct your first formal Bayesian analysis!** You will construct your first prior and data models and, from these, construct your first posterior models via Bayes’ Rule.
+
+-   **Practice your Bayesian grammar.** Imagnie how difficult it would be to reed this book if the authors didn't spellcheck or use proper grammar and punctuation. In this spirit, you’ll practice the formal notation and terminology central to Bayesian grammar.
+
+-   **Simulate Bayesian models.** Simulation is integral to building intuition for and supporting Bayesian analyses. You’ll conduct your first simulation, using the R statistical software, in this chapter.
+
+```{r}
+#| label: load packages and data
+#| output: false
+# Load packages
+library(bayesrules)
+library(tidyverse)
+library(janitor)
+
+# Import article data
+data(fake_news)
+```
+
+## Introduction 
+
+```{r}
+fake_news |> 
+    tabyl(type) |> 
+    adorn_totals("row") 
+
+fake_news |> 
+    tabyl(title_has_excl, type) |> 
+    adorn_totals("row")
+```
+
+We see from this table that 40% of the articles in this collection are fake. We also see that only 2/90 real articles uses a "!" in the title.
+
+**Prior**: 40% of the articles are fake **Data**: ! are more common in fake news
+
+This what lead us to think that if we were presented with a new article that had a !, that we would update our belief that the article is fake from 40% to 90%. Let us see how we arrive that decision using Baye's Rule.
+
+> Question for me to think on: I can understand that we are balancing the information that 40% of the articles are fake with the information that only about 98 percent of real articles do not use a !, but how exactly do we arrive at 90%?
+
+## 2.1 Building a Bayesian model for events
+
+### 2.1.1 Prior probability model
+
+We have to formalize our understanding on whenever the new article is fake or not based on what we know from the fake news dataset which we assume is a representative sample of new articles. Our prior probability, that is before reading the news article is formalized below with *B* denoting that an article is fake and B^c^ being its complement aka the article is real. Together this makes up our prior model and sums up to 1.
+
+$$
+P(B)=.40\ and\ P(B^c) = .60
+$$
+
+### 2.1.2 Conditional probability & likelihood
+
+Now we need to formalize the insights we gained from looking at the fake news dataset in regards to the distribution of articles using a !. To do this we will make a conditional probability statement in which A denotes exclamation point usage and B and B^c^ and articles status with B denoting the article is fake.
