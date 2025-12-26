@@ -1,1 +1,3 @@
-# Self Study Bayes Rules!
+# Self-Study Bayes Rules!
+
+[Bayes Rules!](https://www.bayesrulesbook.com/)
