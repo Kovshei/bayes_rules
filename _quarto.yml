@@ -1,0 +1,7 @@
+project:
+  type: default
+
+format:
+  gfm:
+    toc: true           # optional: adds table of contents
+    code-fold: true     # show code by default
